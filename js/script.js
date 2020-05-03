@@ -36,9 +36,57 @@ window.addEventListener('DOMContentLoaded', function() {
 
     });
   
-    
+    //Timer
 
+     let deadline = "2020-05-04:Z+8";
 
-
+     function getTimeRemaining(endtime) {
+         let t = Date.parse(endtime) - Date.parse(new Date()),
+             seconds = Math.floor(((t/1000) % 60)),
+             minutes = Math.floor(((t/1000/60) % 60)),
+             hours = Math.floor(((t/1000/60/60)));
+   
+         return {
+             'total' : t,
+             'hours' : hours,
+             'minutes' : minutes,
+             'seconds' : seconds
+         };
+     }
+   
+     function setTimer(id, endtime) {
+        let timeId = document.getElementById(id),
+            hours = timeId.querySelector('.hours'),
+            minutes = timeId.querySelector('.minutes'),
+            seconds = timeId.querySelector('.seconds'),
+            timerInterval = setInterval(updateTimer, 1000);
+  
+        function updateTimer() {
+            let t = getTimeRemaining(endtime);
+            
+            if(t.total > 0) {
+                
+                if(t.hours < 10) {hours.textContent = "0" + t.hours;}else {hours.textContent = t.hours;}
+                if(t.minutes < 10) {minutes.textContent = "0" + t.minutes;}else{minutes.textContent = t.minutes;}
+                if(t.seconds < 10) {seconds.textContent = "0" + t.seconds;}else{seconds.textContent = t.seconds;}
+                
+            }else {
+                hours.textContent = '00';
+                minutes.textContent = '00';
+                seconds.textContent = '00';
+                clearInterval(timerInterval);
+            }
+                      
+        }
+     }
+   
+    setTimer('timer', deadline);
+    // let obj = {
+    //     'total' : "1",
+    //     'hours' : "2",
+    //     'minutes' : "3",
+    //     'seconds' : "4"
+    // };
+    // console.log(Object.values(obj)[0] + "0");
 });
 
