@@ -1,28 +1,28 @@
 
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
     'use strict';
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll('.info-tabcontent');
        
-    function hideTabContent(a) {
+    let hideTabContent = (a) => {
         for(let i = a; i < tabContent.length; i++) {
             tabContent[i].classList.remove('show');
             tabContent[i].classList.add('hide');
         }
-    }
+    };
 
     hideTabContent(1);
 
-    function showTabContent(b) {
+    let showTabContent = (b) => {
         if(tabContent[b].classList.contains('hide')) {
             tabContent[b].classList.remove('hide');
             tabContent[b].classList.add('show');
         }
-    }
+    };
 
-    info.addEventListener('click', function(event) {
+    info.addEventListener('click', (event) => {
         let target = event.target;
 
         if(target && target.classList.contains('info-header-tab')) {
@@ -38,9 +38,9 @@ window.addEventListener('DOMContentLoaded', function() {
   
     //Timer
 
-     let deadline = "2020-05-06:Z+8";
+     let deadline = "2020-05-07:Z+8";
 
-     function getTimeRemaining(endtime) {
+     let getTimeRemaining = (endtime) => {
         let t = Date.parse(endtime) - Date.parse(new Date()),
             seconds = Math.floor(((t/1000) % 60)),
             minutes = Math.floor(((t/1000/60) % 60)),
@@ -52,9 +52,9 @@ window.addEventListener('DOMContentLoaded', function() {
             'minutes' : minutes,
             'seconds' : seconds
         };
-     }
+     };
    
-     function setTimer(id, endtime) {
+     let setTimer = (id, endtime) => {
         let timeId = document.getElementById(id),
             hours = timeId.querySelector('.hours'),
             minutes = timeId.querySelector('.minutes'),
@@ -63,11 +63,11 @@ window.addEventListener('DOMContentLoaded', function() {
   
         function updateTimer() {
             let t = getTimeRemaining(endtime);
-            function addZero(num){
+            let addZero = (num) => {
                 if(num <= 9){
                     return "0" + num;
                 }return num;
-            }
+            };
             
             hours.textContent = addZero(t.hours);
             minutes.textContent = addZero(t.minutes);
@@ -82,14 +82,14 @@ window.addEventListener('DOMContentLoaded', function() {
             }
                       
         }
-     }
+     };
    
     setTimer('timer', deadline);
     
 
     //Modal window
 
-    function callModal(className) {
+    let callModal = (className) => {
         let moreBtn = document.querySelectorAll(className),
         overlay = document.querySelector('.overlay'),
         close = document.querySelector('.popup-close');
@@ -97,13 +97,12 @@ window.addEventListener('DOMContentLoaded', function() {
     
     
         for(let i = 0; i < moreBtn.length; i++) {
-            moreBtn[i].addEventListener('click', function() {
+            moreBtn[i].addEventListener('click', () => {
                 overlay.style.display = 'block';
                 this.classList.add('more-splash');
                 document.body.style.overflow = 'hidden';
-                
             });
-            close.addEventListener('click', function() {
+            close.addEventListener('click', () => {
                 overlay.style.display = 'none';
                 document.body.style.overflow = '';
                 moreBtn[i].classList.remove('more-splash');
@@ -116,11 +115,5 @@ window.addEventListener('DOMContentLoaded', function() {
     callModal('.description-btn');
     
   
-
-
-
-
-
-
 });
 
