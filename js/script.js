@@ -89,31 +89,98 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //Modal window
 
-    let callModal = (className) => {
-        let moreBtn = document.querySelectorAll(className),
-        overlay = document.querySelector('.overlay'),
-        close = document.querySelector('.popup-close');
-        
+    let more = document.querySelector('.more'),
+    overlay = document.querySelector('.overlay'),
+    close = document.querySelector('.popup-close');
+
+    more.addEventListener('click', function() {
+        overlay.style.display = 'block';
+        this.classList.add('more-splash');
+        document.body.style.overflow = 'hidden';
+    });
+
+    close.addEventListener('click', function() {
+        overlay.style.display = 'none';
+        more.classList.remove('more-splash');
+        document.body.style.overflow = '';
+    });
+
+
     
+
+
+
+    //Form
+
+    let message = {
+        loading: "Идет загрузка...",
+        success: "Спасибо! Скоро мы с вами свяжемся.",
+        failure: "Произошла ошибка отправки запроса"
+    };
+
+    let form = document.querySelector('.main-form'),
+        input = form.getElementsByTagName('input'),
+        statusMessage = document.createElement('div');
     
-        for(let i = 0; i < moreBtn.length; i++) {
-            moreBtn[i].addEventListener('click', () => {
-                overlay.style.display = 'block';
-                this.classList.add('more-splash');
-                document.body.style.overflow = 'hidden';
-            });
-            close.addEventListener('click', () => {
-                overlay.style.display = 'none';
-                document.body.style.overflow = '';
-                moreBtn[i].classList.remove('more-splash');
-                }); 
+    statusMessage.classList.add('status');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        form.appendChild(statusMessage);
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        let formData = new FormData(form);
+        request.send(formData);
+
+        request.addEventListener('readystatechange', function() {
+            if(request.readyState < 4) {
+                statusMessage.innerHTML = message.loading; 
+            }else if(request.readyState === 4 && request.status == 200){
+                statusMessage.innerHTML = message.success;
+            }else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+
+        for (let i = 0; i < input.length; i++) {
+            input[i].value = '';
         }
-        
-    }
-    
-    callModal('.more');   
-    callModal('.description-btn');
-    
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 });
 
